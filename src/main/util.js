@@ -223,4 +223,7 @@ function initPaths(appDir) {
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const hhmm = () => { const d = new Date(); return `${pad(d.getHours())}:${pad(d.getMinutes())}`; };
 
-module.exports = { log, env, which, findClaude, claudeLocations, run, jsonLines, clean, cutSources, SOURCES_START, paths, initPaths, sleep, hhmm };
+/** The language of what the user said, so JARVIS's own lines answer in it: 'ru' for Cyrillic, else 'en'. */
+const languageOf = (text) => (/[\u0400-\u04FF]/.test(String(text || '')) ? 'ru' : 'en');
+
+module.exports = { log, env, which, findClaude, claudeLocations, run, jsonLines, clean, cutSources, SOURCES_START, paths, initPaths, sleep, hhmm, languageOf };
