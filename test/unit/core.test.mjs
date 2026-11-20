@@ -273,6 +273,23 @@ test('a running job shows its progress on the HUD but is never announced until i
   assert.equal(notices.at(-1), 'Finished: checking your Gmail');
 });
 
+test('JARVIS\'s own lines follow the language of the request, with no English filler in Russian', () => {
+  const { ownLine } = require('../../src/main/orchestrator');
+  assert.equal(util.languageOf('Проверь мою почту'), 'ru');
+  assert.equal(util.languageOf('check my Gmail'), 'en');
+  assert.equal(util.languageOf('открой YouTube'), 'ru');
+  assert.equal(util.languageOf(''), 'en');
+  assert.equal(ownLine('handoff', 'en', 'sir', 'checking your Gmail'), 'Checking your Gmail now, sir.');
+  assert.equal(ownLine('handoff', 'ru', 'sir', 'проверяю почту'), 'Проверяю почту.', 'an English title stays out of Russian');
+  assert.equal(ownLine('handoff', 'ru', 'sir', 'checking your Gmail'), 'Приступаю.', 'an English description is never read in a Russian turn');
+  assert.equal(ownLine('handoff', 'ru', 'господин', 'проверяю почту'), 'Проверяю почту, господин.');
+  assert.equal(ownLine('rest', 'ru', 'sir'), 'Остальное на экране.');
+  assert.equal(ownLine('rest', 'en', 'sir'), 'The rest is on screen, sir.');
+  for (const lang of ['ru', 'en']) for (const d of ['', 'проверяю почту', 'checking your Gmail']) {
+    assert.doesNotMatch(ownLine('handoff', lang, 'sir', d), /let me|right away|on it|one moment|just a sec/i);
+  }
+});
+
 test('findClaude() finds claude in its install locations when PATH lacks it', (t) => {
   if (['/opt/homebrew/bin/claude', '/usr/local/bin/claude'].some((p) => fs.existsSync(p))) return t.skip('claude is installed system-wide here');
   const home = fs.mkdtempSync(path.join(os.tmpdir(), 'jarvis-home-'));

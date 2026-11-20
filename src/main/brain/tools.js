@@ -66,7 +66,7 @@ const DELEGATE = {
 const DELEGATE_NOTE = `In this mode you do not have Bash. Use the tools instead:
 - run_script runs the helper scripts described above (give the script name, not the path, and the arguments as a list).
 - open opens websites and apps. web_fetch reads a page. read_file reads a file. remember saves a fact.
-- TIER 2 works through the delegate tool, not the Agent tool. The worker takes the job in the background and reports back, and you then tell the user the result in your own words. Everything TIER 2 says about agents applies: say ONE short sentence of what's happening, then call delegate, then end the turn with two or three words such as "On it." Never wait for the worker.
+- TIER 2 works through the delegate tool, not the Agent tool. The worker takes the job in the background and reports back, and you then tell the user the result in your own words. Everything TIER 2 says about agents applies: say ONE short sentence of what's happening, in the user's language, then call delegate, then end the turn with two or three words such as "On it." Never wait for the worker.
 - Every task goes to delegate: web searches, websites, email and messages, coding, files, anything beyond a simple answer.
 - Ask the user before delegating anything that sends, posts, deletes, publishes, pays or changes account settings, exactly as the rules above say; when they agree, write "The user confirmed: …" in the task.`;
 
